@@ -84,13 +84,15 @@ class ModalSolver():
         self.PhiT = self.Phi.transpose()
         print 'Initialized mode shape matrix.'
 
-    def setInitial(self, _xi, _vi):
-        """Set the initial conditions (displacement and velocity)
+    def setInitial(self, _xi, _vi, _fi):
+        """Set the initial conditions (displacement, velocity and forces)
         """
         self.y0 = np.concatenate((_xi, _vi))
         self.dispX, self.dispY, self.dispZ = self.__getPhysicalDisp(self.y0[0:self.nModes])
+        self.fq = _fi
         print 'Set initial displacements:', self.y0[0:self.nModes]
         print 'Set initial velocities:', self.y0[self.nModes-1:-1]
+        print 'Set initial forces:', self.fq
 
     def setExtractor(self, _list):
         """Set an extractor list

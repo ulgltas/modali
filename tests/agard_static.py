@@ -28,6 +28,10 @@ def main():
     # Run solver
     solver.runStatic()
 
+    # Save data to disk
+    solver.write('agard_sol')
+    print''
+
     # Print reference solution for check (obtained with CUPyDO)
     print 'Check:'
     print 'y0:', solver.y0[0], '?~', 0.387929

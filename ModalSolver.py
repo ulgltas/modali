@@ -91,7 +91,7 @@ class ModalSolver():
         self.dispX, self.dispY, self.dispZ = self.__getPhysicalDisp(self.y0[0:self.nModes])
         self.fq = _fi
         print 'Set initial displacements:', self.y0[0:self.nModes]
-        print 'Set initial velocities:', self.y0[self.nModes-1:-1]
+        print 'Set initial velocities:', self.y0[self.nModes:-1]
         print 'Set initial forces:', self.fq
 
     def setExtractor(self, _list):

@@ -67,7 +67,7 @@ class ModalSolver():
         data = np.loadtxt(fname, delimiter=',', skiprows=1)
         # Store data
         self.nNodes = data.shape[0]
-        self.nodalGlobalIndex = data[:,0]
+        self.nodalGlobalIndex = (data[:,0]).astype(int)
         self.nodalCoord_X = data[:,1]
         self.nodalCoord_Y = data[:,2]
         self.nodalCoord_Z = data[:,3]
@@ -91,7 +91,7 @@ class ModalSolver():
         self.dispX, self.dispY, self.dispZ = self.__getPhysicalDisp(self.y0[0:self.nModes])
         self.fq = _fi
         print 'Set initial displacements:', self.y0[0:self.nModes]
-        print 'Set initial velocities:', self.y0[self.nModes-1:-1]
+        print 'Set initial velocities:', self.y0[self.nModes:-1]
         print 'Set initial forces:', self.fq
 
     def setExtractor(self, _list):
@@ -156,6 +156,22 @@ class ModalSolver():
         for i in range(0, self.nModes):
             print '{0:5d}   {1:12.6f}   {2:12.6f}   {3:12.6f}   {4:12.6f}'.format(i, y[0, i], y[1, i], y[0, i+self.nModes], y[1, i+self.nModes])
         print ''
+
+    def write(self, fname):
+        """Write physical coordinates and modal data to disk
+        """
+        print 'Writing data file:', fname+'.csv'
+        file = open(fname+'.csv', 'w')
+        file.write('index, x_coord, y_coord, z_coord, ')
+        for j in range(0, self.nModes-1):
+            file.write('dX_mode{0:d}, dY_mode{0:d}, dZ_mode{0:d}, '.format(j+1))
+        file.write('dX_mode{0:d}, dY_mode{0:d}, dZ_mode{0:d}\n'.format(self.nModes))
+        for i in range(0, self.nNodes):
+            file.write('{0:d}, {1:f}, {2:f}, {3:f}, '.format(self.nodalGlobalIndex[i], self.nodalCoord_X[i]+self.dispX[i], self.nodalCoord_Y[i]+self.dispY[i], self.nodalCoord_Z[i]+self.dispZ[i]))
+            for j in range(0, self.nModes-1):
+                file.write('{0:f}, {1:f}, {2:f}, '.format(self.Phi[i,j], self.Phi[i+self.nNodes,j], self.Phi[i+2*self.nNodes,j]))
+            file.write('{0:f}, {1:f}, {2:f}\n'.format(self.Phi[i,self.nModes-1], self.Phi[i+self.nNodes,self.nModes-1], self.Phi[i+2*self.nNodes,self.nModes-1]))
+        file.close()
 
     def __getModalForce(self, f):
         """Transform a force vector to the modal space

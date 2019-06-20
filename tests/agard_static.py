@@ -2,7 +2,7 @@
 # -*- coding: utf-8; -*-
 
 import numpy as np
-import ModalSolver as ms
+import modali as ms
 import os.path
 
 def main():
@@ -18,7 +18,7 @@ def main():
     nModes = initialModalDisp.shape[0]
 
     # Initialize solver
-    solver = ms.ModalSolver(nModes)
+    solver = ms.modali(nModes)
     solver.setMatrices(modalMass, modalDamping, modalStiffness)
     solver.readModes(fconfig)
     solver.setInitial(initialModalDisp, initialModalVel, initialModalLoads)

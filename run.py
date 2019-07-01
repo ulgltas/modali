@@ -41,7 +41,7 @@ if __name__ == "__main__":
     print "time:", time.strftime("%c")
     print "hostname:", platform.node()
     print '*' * 80
-    print '* Modal Solver'
+    print '* modali'
     print '* Adrien Crovato & Huseyin Guner'
     print '* ULiege, 2018-2019'
     print '* Distributed under Apache license 2.0'

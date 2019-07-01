@@ -16,7 +16,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. 
 
-ModalSolver.py
+modali.py
 Python Modal solver
 Huseyin Guner, Adrien Crovato 
 '''
@@ -33,14 +33,14 @@ from numpy.linalg import inv
 #  Modal solver
 # ----------------------------------------------------------------------
 
-class ModalSolver():
+class modali():
     """
     Modal solver
     """
     def __init__(self, m):
         # Say hi!
-        print 'Hi! I am a modal solver!'
-        print 'Huseyin Guner and Adrien Crovato'
+        print 'Hi! I am a modal integrator!'
+        print 'Adrien Crovato and Huseyin Guner'
         print 'ULiege, 2018-2019\n'
 
         # Get number of modes

@@ -23,5 +23,5 @@ integrations:
     - integrationName: slack   
       type: slack
       recipients:
-        - "#modalsolver"
+        - "#others"
 

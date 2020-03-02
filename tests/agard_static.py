@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8; -*-
 
+from __future__ import print_function
 import numpy as np
 import modali as ms
 import os.path
@@ -23,24 +24,24 @@ def main():
     solver.readModes(fconfig)
     solver.setInitial(initialModalDisp, initialModalVel, initialModalLoads)
     solver.setExtractor([16, 13808])
-    print''
+    print('')
 
     # Run solver
     solver.runStatic()
 
     # Save data to disk
     solver.write('agard_sol')
-    print''
+    print('')
 
     # Print reference solution for check (obtained with CUPyDO)
-    print 'Check:'
-    print 'y0:', solver.y0[0], '?~', 0.387929
-    print 'y1:', solver.y0[1], '?~', -0.063275
-    print 'y2:', solver.y0[2], '?~', -0.000782
-    print 'y3:', solver.y0[3], '?~', -0.007841
+    print('Check:')
+    print('y0:', solver.y0[0], '?~', 0.387929)
+    print('y1:', solver.y0[1], '?~', -0.063275)
+    print('y2:', solver.y0[2], '?~', -0.000782)
+    print('y3:', solver.y0[3], '?~', -0.007841)
 
     # eof
-    print ''
+    print('')
 
 if __name__ == '__main__':
     main()

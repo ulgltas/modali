@@ -8,7 +8,7 @@ def createWdir():
     import os
     wdir = os.path.join(os.getcwd(), 'workspace')
     if not os.path.isdir(wdir):
-        print "creating", wdir
+        print("creating", wdir)
         os.makedirs(wdir)
     os.chdir(wdir)
 
@@ -36,14 +36,14 @@ if __name__ == "__main__":
     # setup workspace and start the test
     createWdir()
     import time, platform
-    print '*' * 80
-    print "starting test", testname
-    print "time:", time.strftime("%c")
-    print "hostname:", platform.node()
-    print '*' * 80
-    print '* modali'
-    print '* Adrien Crovato & Huseyin Guner'
-    print '* ULiege, 2018-2019'
-    print '* Distributed under Apache license 2.0'
-    print '*' * 80
-    execfile(testname)
+    print('*' * 80)
+    print("starting test", testname)
+    print("time:", time.strftime("%c"))
+    print("hostname:", platform.node())
+    print('*' * 80)
+    print('* modali')
+    print('* Adrien Crovato & Huseyin Guner')
+    print('* ULiege, 2018-2019')
+    print('* Distributed under Apache license 2.0')
+    print('*' * 80)
+    exec(open(testname).read())

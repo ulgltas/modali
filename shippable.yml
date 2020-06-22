@@ -14,7 +14,7 @@ before_install:
   # python
   - sudo apt-get install -qq python3-dev python3-numpy python3-scipy
   # add dist-package to pythonpath (for numpy)
-  - export PYTHONPATH="${PYTHONPATH}:/usr/lib/python3.5/dist-packages"
+  - export PYTHONPATH="${PYTHONPATH}:/usr/lib/python3/dist-packages"
 
 script:
   - python run.py tests/agard_static.py

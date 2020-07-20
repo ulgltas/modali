@@ -1,10 +1,11 @@
 # modali
 Structural dynamics solver based on modal integration  
 Adrien Crovato and Huseyin Guner
-ULiege, 2019
+ULiege, 2019-2020
 
 ## Description
-modali allows to compute the response of a structure subjected to an excitation based on its modal charasteristics.
+modali is a python code allowing to compute the response of a structure subjected to an excitation based on its modal charasteristics.  
+modali v2 and up is compatible with python 3, while previous versions are compatible with python2.
 
 modali solves the following equation:  
 **M_q** q_ddot + **C_q** q_dot + **K_q** q = f_q,  
@@ -12,7 +13,7 @@ where **M_q**, **C_q** and **K_q** are the modal mass, damping and stiffness mat
 The modal displacements are then multiplied by the mode shape matrix to get the physical displacements.
 
 ## Features
-* Static solver: solves **K_q** q = f_q for a diagonal stifness matrix
+* Static solver: solves **K_q** q = f_q for a diagonal stiffness matrix
 * Dynamic integrator: solves the full equation with Runge-Kutta order 4-5
 
 ## Usage

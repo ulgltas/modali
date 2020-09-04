@@ -1,8 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: latin-1; -*-
+#!/usr/bin/env python3
+# -*- coding: utf-8; -*-
 
 ''' 
-Copyright 2019 University of Liège
+Copyright 2020 University of Liège
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -39,13 +39,13 @@ class modali():
     """
     def __init__(self, m):
         # Say hi!
-        print 'Hi! I am a modal integrator!'
-        print 'Adrien Crovato and Huseyin Guner'
-        print 'ULiege, 2018-2019\n'
+        print('Hi! I am a modal integrator!')
+        print('Adrien Crovato and Huseyin Guner')
+        print('ULiege, 2018-2019\n')
 
         # Get number of modes
         self.nModes = m
-        print 'Number of modes:', self.nModes
+        print('Number of modes:', self.nModes)
 
     def setMatrices(self, _Mq, _Cq, _Kq):
         """Set the modal matrices and the number of modes
@@ -54,15 +54,15 @@ class modali():
         self.invMq = inv(self.Mq)
         self.Cq = _Cq
         self.Kq = _Kq
-        print 'Initialized modal matrices.'
+        print('Initialized modal matrices.')
 
     def readModes(self, fname):
         """Read the modes
         """
         # Read file
-        print 'Reading file:', fname
-        fl = file(fname)
-        label = fl.next().split(',')
+        print('Reading file:', fname)
+        fl = open(fname, 'r')
+        label = next(fl).split(',')
         fl.close()
         data = np.loadtxt(fname, delimiter=',', skiprows=1)
         # Store data
@@ -78,11 +78,11 @@ class modali():
             nodalMod_X[:,i] = data[:,4+3*i]
             nodalMod_Y[:,i] = data[:,5+3*i]
             nodalMod_Z[:,i] = data[:,6+3*i]
-        print 'Number of nodes:', self.nNodes
+        print('Number of nodes:', self.nNodes)
         # Initialize modal matrix
         self.Phi = np.concatenate((nodalMod_X, nodalMod_Y, nodalMod_Z))    
         self.PhiT = self.Phi.transpose()
-        print 'Initialized mode shape matrix.'
+        print('Initialized mode shape matrix.')
 
     def setInitial(self, _xi, _vi, _fi):
         """Set the initial conditions (displacement, velocity and forces)
@@ -90,9 +90,9 @@ class modali():
         self.y0 = np.concatenate((_xi, _vi))
         self.dispX, self.dispY, self.dispZ = self.__getPhysicalDisp(self.y0[0:self.nModes])
         self.fq = _fi
-        print 'Set initial displacements:', self.y0[0:self.nModes]
-        print 'Set initial velocities:', self.y0[self.nModes:-1]
-        print 'Set initial forces:', self.fq
+        print('Set initial displacements:', self.y0[0:self.nModes])
+        print('Set initial velocities:', self.y0[self.nModes:-1])
+        print('Set initial forces:', self.fq)
 
     def setExtractor(self, _list):
         """Set an extractor list
@@ -101,7 +101,7 @@ class modali():
         for gidx in _list:
             lidx = np.argwhere(self.nodalGlobalIndex == gidx)
             self.extractor[gidx] = lidx[0,0]
-        print 'Initialized extractor list with indices:', self.extractor
+        print('Initialized extractor list with indices:', self.extractor)
 
     def updateLoads(self, _fx, _fy, _fz):
         """Set the load before the computation
@@ -112,7 +112,7 @@ class modali():
     def runStatic(self):
         """Run the static modal solver
         """
-        print 'Running static modal solver...'
+        print('Running static modal solver...')
         # Solve
         y = np.zeros((2, len(self.y0)))
         y[0, :] = self.y0 # store initial state
@@ -122,10 +122,10 @@ class modali():
         # Get physical physical displacements
         self.dispX, self.dispY, self.dispZ = self.__getPhysicalDisp(self.y0[0:self.nModes])
         # Printout
-        print '{0:>5s}   {1:>12s}   {2:>12s}'.format('Dof', 'y_i', 'y_f')
+        print('{0:>5s}   {1:>12s}   {2:>12s}'.format('Dof', 'y_i', 'y_f'))
         for i in range(0, self.nModes):
-            print '{0:5d}   {1:12.6f}   {2:12.6f}'.format(i, y[0, i], y[1, i])
-        print ''
+            print('{0:5d}   {1:12.6f}   {2:12.6f}'.format(i, y[0, i], y[1, i]))
+        print('')
 
     def runDynamic(self, t1, t2):
         """Run the dynamic modal sovler (time integration)
@@ -133,7 +133,7 @@ class modali():
         def f(t, y, self):   
             return np.concatenate([y[self.nModes:2*self.nModes], np.dot(self.invMq, (-np.dot(self.Cq, y[self.nModes:2*self.nModes]) - np.dot(self.Kq, y[0:self.nModes]) + self.fq))]) # equations of motion in modal coordinates
 
-        print 'Running dynamic modal solver...'
+        print('Running dynamic modal solver...')
         # Sanity check
         if t2 <= 0 or t2 <= t1:
             raise Exception('final time ({0:f}) is either negative or leq. than initial time ({1:f})!\n'.format(t2, t1))
@@ -152,15 +152,15 @@ class modali():
         # Get physical physical displacements
         self.dispX, self.dispY, self.dispZ = self.__getPhysicalDisp(self.y0[0:self.nModes])
         # Printout
-        print '{0:>5s}   {1:>12s}   {2:>12s}   {3:>12s}   {4:>12s}'.format('Dof', 'y_i', 'y_f', 'y_i_dot', 'y_f_dot')
+        print('{0:>5s}   {1:>12s}   {2:>12s}   {3:>12s}   {4:>12s}'.format('Dof', 'y_i', 'y_f', 'y_i_dot', 'y_f_dot'))
         for i in range(0, self.nModes):
-            print '{0:5d}   {1:12.6f}   {2:12.6f}   {3:12.6f}   {4:12.6f}'.format(i, y[0, i], y[1, i], y[0, i+self.nModes], y[1, i+self.nModes])
-        print ''
+            print('{0:5d}   {1:12.6f}   {2:12.6f}   {3:12.6f}   {4:12.6f}'.format(i, y[0, i], y[1, i], y[0, i+self.nModes], y[1, i+self.nModes]))
+        print('')
 
     def write(self, fname):
         """Write physical coordinates and modal data to disk
         """
-        print 'Writing data file:', fname+'.csv'
+        print('Writing data file:', fname+'.csv')
         file = open(fname+'.csv', 'w')
         file.write('index, x_coord, y_coord, z_coord, ')
         for j in range(0, self.nModes-1):
